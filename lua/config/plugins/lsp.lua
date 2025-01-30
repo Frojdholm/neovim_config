@@ -1,5 +1,5 @@
 return {
-    { 
+    {
         "neovim/nvim-lspconfig",
         dependencies = { 'saghen/blink.cmp' },
         config = function()
@@ -15,7 +15,7 @@ return {
             vim.api.nvim_create_autocmd('LspAttach', {
                 desc = 'LSP actions',
                 callback = function(event)
-                    local opts = {buffer = event.buf}
+                    local opts = { buffer = event.buf }
                     vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
                     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
                     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
@@ -35,11 +35,11 @@ return {
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
                     if not client then return end
 
-                    if client.supports_method("textDocument/formatting", 0) then
+                    if client.supports_method("textDocument/formatting", { bufnr = 0 }) then
                         vim.api.nvim_create_autocmd('BufWritePre', {
                             buffer = args.buf,
                             callback = function()
-                                vim.lsp.buf.format({async = false, id = args.data.client_id})
+                                vim.lsp.buf.format({ async = false, id = args.data.client_id })
                             end,
                         })
                     end
@@ -50,6 +50,31 @@ return {
             require('lspconfig').zls.setup {}
             require('lspconfig').ruff.setup {}
             require('lspconfig').pylsp.setup {}
+            require('lspconfig').lua_ls.setup {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using
+                            -- (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT',
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = {
+                                'vim',
+                            },
+                        },
+                        workspace = {
+                            -- Make the server aware of Neovim runtime files
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                },
+            }
         end
     },
 }
