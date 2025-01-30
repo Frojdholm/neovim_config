@@ -2,10 +2,10 @@ local function create_float(opts)
     opts = opts or {}
     local width = opts.width or math.floor(vim.o.columns * 0.8)
     local height = opts.height or math.floor(vim.o.lines * 0.8)
-    
+
     local row = math.floor((vim.o.lines - height) / 2)
     local col = math.floor((vim.o.columns - width) / 2)
-    
+
     local win_opts = {
         relative = "editor",
         width = width,
@@ -15,7 +15,7 @@ local function create_float(opts)
         style = "minimal",
         border = "rounded"
     }
-    
+
     local buf = nil
     if vim.api.nvim_buf_is_valid(opts.buf) then
         buf = opts.buf
@@ -48,4 +48,4 @@ local toggle_terminal = function()
 end
 
 vim.api.nvim_create_user_command("Floatterminal", toggle_terminal, {})
-vim.keymap.set({"n", "t"}, "<C-t>", toggle_terminal)
+vim.keymap.set({ "n", "t" }, "<C-t>", toggle_terminal)
