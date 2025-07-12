@@ -52,7 +52,14 @@ require("lazy").setup {
     {
         "ibhagwan/fzf-lua",
         dependencies = { "echasnovski/mini.icons" },
-        opts = {}
+        opts = {},
+        config = function()
+            local fzf_lua = require("fzf-lua")
+            fzf_lua.setup {}
+            vim.keymap.set("n", "<leader>pf", fzf_lua.files, {})
+            vim.keymap.set("n", "<leader>pg", fzf_lua.live_grep, {})
+            vim.keymap.set("n", "<C-p>", fzf_lua.git_files, {})
+        end
     },
     { "nvim-treesitter/nvim-treesitter",
         dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },

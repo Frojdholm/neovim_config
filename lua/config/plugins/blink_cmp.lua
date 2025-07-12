@@ -18,11 +18,25 @@ return {
                 -- nerd_font_variant = 'mono'
             },
 
+            cmdline = {
+                keymap = { preset = 'inherit' },
+                completion = { menu = { auto_show = true } },
+            },
+
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
+            completion = {
+                list = {
+                    selection = {
+                        preselect = function(ctx)
+                            return not require('blink.cmp').snippet_active({ direction = 1 })
+                        end,
+                    }
+                }
+            }
         },
         opts_extend = { "sources.default" }
     }
