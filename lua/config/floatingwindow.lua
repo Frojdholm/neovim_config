@@ -47,4 +47,4 @@ local toggle_terminal = function()
 end
 
 vim.api.nvim_create_user_command("Floatterminal", toggle_terminal, {})
-vim.keymap.set({ "n", "t" }, "<C-t>", toggle_terminal)
+vim.keymap.set({ "n", "t" }, "<leader>t", toggle_terminal)
